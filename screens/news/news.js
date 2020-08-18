@@ -1,12 +1,56 @@
 import React, { Component } from 'react';
-import {View,Text, ScrollView, StyleSheet} from 'react-native'
+import {View,Text, ScrollView, StyleSheet, Button, ActivityIndicator} from 'react-native'
+
+//IMPORT CONFIG & DEPENDENCIES
+import {getSummaryData} from '../../api/covid/covidApi'
+
+//IMPORT COMPONENTS
+
+//IMPORT IMAGES
 
 class News extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            summary : [],
+            isLoading : false
+        }
+    }
+
+    componentDidMount(){
+        console.log('hello')
+        this._handlerSummaryData()
+        if(this.state.summary.length >= 1 ){
+            this._handlerSummaryData()
+        }
+        
+    }
+
+
+    _handlerSummaryData = () => {
+        // this.setState({isLoading : true})
+        getSummaryData()
+            .then((data) => {
+                console.log(data.Global)
+            })
+            .catch((error)=> console.log(error))
+
+    }
+
+    _goToSearchScreen(){
+        const { navigation } = this.props
+        navigation.navigate('search')
+    }
+    _goToHomePage(){
+        const {navigation} = this.props
+        navigation.navigate('home')
+    }
     render() {
         return (
             <ScrollView style={styles.main}> 
                 <View style={styles.inTheWorld}>
                     <Text style={styles.title}>Dans le monde</Text>
+                    <Text style={styles.date}> Date : 18/08/2020 </Text>
                     <View style={styles.boxStats}>
                         <View style={[styles.space,styles.boxStat,styles.boxStatSick]}>
                             <Text style={styles.colorWhite}>Nombre de cas contaminés</Text>
@@ -22,13 +66,10 @@ class News extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={styles.inTheWorld}>
-                    <Text style={[styles.title,styles.continent]}>Par Contient</Text>
-                    <View style={styles.continentName}>
-                        <Text>Afrique</Text>
-                        
+                    <View style={styles.button}>
+                        <Button title='rechercher'  color="#ab4d8b" onPress={ () => this._goToSearchScreen()} />
                     </View>
-                </View>
+                    <Button title='accueil' onPress={ () => this._goToHomePage() } />
             </ScrollView>
         );
     }
@@ -37,10 +78,14 @@ class News extends Component {
 const styles = StyleSheet.create({
     main : {
         padding : 10,
-        
+        backgroundColor : "#fff"
     },
     inTheWorld : {
         marginBottom : 40
+    },
+    date : {
+        fontSize : 15,
+        marginBottom : 10
     },
     title :  {
         fontSize : 25,
@@ -76,8 +121,8 @@ const styles = StyleSheet.create({
         fontSize : 35,
         fontWeight : "bold"
     },
-    continent : {
-        marginBottom : 15
+    button : {
+        marginBottom : 10
     }
 })
 

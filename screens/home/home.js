@@ -1,6 +1,7 @@
 import React , {Component} from 'react'
 import { View, StyleSheet, Text , ScrollView , ImageBackground ,Button } from 'react-native'
 
+//IMPORT CONFIG & DEPENDENCIES
 import data from '../../helpers/fakeData'
 
 
@@ -54,6 +55,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
     scrool_view : {
         flex : 1,
+        backgroundColor  : '#fff'
     },
     mainBox : {
         borderBottomLeftRadius : 20,

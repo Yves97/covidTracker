@@ -9,13 +9,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/home/home'
 import News from './screens/news/news'
 import Search from './screens/search/search'
+
 //IMPORT COMPONENTS
 
 
 //STACK NAVIGATOR
 const Stack = createStackNavigator()
 
-export default function App(){
+function App(){
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="home">
@@ -27,4 +28,5 @@ export default function App(){
     );
 }
 
+export default App
 
