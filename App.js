@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
-import {View, Text,StyleSheet} from 'react-native';
 
 //IMPORT CONFIG & DEPENDENCIES
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 //IMPORT SCREENS
-
+import Home from './screens/home/home'
+import News from './screens/news/news'
+import Search from './screens/search/search'
 //IMPORT COMPONENTS
 
 
+//STACK NAVIGATOR
+const Stack = createStackNavigator()
 
-class App extends Component {
-  render() {
+export default function App(){
     return (
-      <View  style={styles.main}>
-        <Text>Hello from Covid Tracker App</Text>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="home">
+          <Stack.Screen name="home" component={Home} />
+          <Stack.Screen name="news" component={News} />
+          <Stack.Screen name="search" component={Search} />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
-  }
 }
 
-const styles = StyleSheet.create({
-  main : {
-    flex : 1,
-    justifyContent : "center",
-    alignItems : "center"
-  }
-})
 
-export default App;
