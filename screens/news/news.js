@@ -3,6 +3,7 @@ import {View,Text, ScrollView, StyleSheet, Button, ActivityIndicator} from 'reac
 
 //IMPORT CONFIG & DEPENDENCIES
 import {getSummaryData} from '../../api/covid/covidApi'
+import moment from 'moment'
 
 //IMPORT COMPONENTS
 
@@ -12,29 +13,32 @@ class News extends Component {
     constructor(props){
         super(props)
         this.state = {
-            summary : [],
+            summary : '',
             isLoading : false
         }
     }
 
     componentDidMount(){
-        console.log('hello')
         this._handlerSummaryData()
-        if(this.state.summary.length >= 1 ){
+        if(this.state.summary.length >= 0 ){
             this._handlerSummaryData()
         }
-        
     }
 
-
+    _getFormatedCurrentDate = () => {
+        let dateFr = moment.locale('fr')
+    }
+    
     _handlerSummaryData = () => {
-        // this.setState({isLoading : true})
+        this.setState({isLoading : true})
         getSummaryData()
             .then((data) => {
-                console.log(data.Global)
+                this.setState({
+                    summary : data.Global,
+                    isLoading : false
+                })
             })
             .catch((error)=> console.log(error))
-
     }
 
     _goToSearchScreen(){
@@ -46,36 +50,56 @@ class News extends Component {
         navigation.navigate('home')
     }
     render() {
-        return (
-            <ScrollView style={styles.main}> 
-                <View style={styles.inTheWorld}>
-                    <Text style={styles.title}>Dans le monde</Text>
-                    <Text style={styles.date}> Date : 18/08/2020 </Text>
-                    <View style={styles.boxStats}>
-                        <View style={[styles.space,styles.boxStat,styles.boxStatSick]}>
-                            <Text style={styles.colorWhite}>Nombre de cas contaminés</Text>
-                            <Text style={styles.numbers}>1479899870</Text>
-                        </View>
-                        <View style={[styles.space,styles.boxStat,styles.boxStatHealth]}>
-                            <Text style={styles.colorWhite}>Nombre de cas guerris  </Text>
-                            <Text style={styles.numbers}>984654654</Text>
-                        </View>
-                        <View style={[styles.boxStat,styles.boxStatDeath]}>
-                            <Text style={styles.colorWhite}>Nombre de cas morts </Text>
-                            <Text style={styles.numbers}>9846545465456</Text>
+        const {summary} = this.state
+        // console.log(summary)
+        let Content  = (
+                <ScrollView style={styles.main}>
+                    <View style={styles.inTheWorld}>
+                        <Text style={styles.title}>Dans le monde</Text>
+                        {/* <Text style={styles.date}> Date : { this._getFormatedCurrentDate()} </Text> */}
+                        <View style={styles.boxStats}>
+                            <View style={[styles.space,styles.boxStat,styles.boxStatSick]}>
+                                <Text style={styles.colorWhite}>Nombre total de cas confirmés</Text>
+                                <Text style={styles.numbers}>{summary.TotalConfirmed}</Text>
+                            </View>
+                            <View style={[styles.space,styles.boxStat,styles.boxStatHealth]}>
+                                <Text style={styles.colorWhite}>Nombre de cas guerris  </Text>
+                                <Text style={styles.numbers}>{summary.TotalRecovered}</Text>
+                            </View>
+                            <View style={[styles.boxStat,styles.boxStatDeath]}>
+                                <Text style={styles.colorWhite}>Nombre de cas morts </Text>
+                                <Text style={styles.numbers}>{summary.TotalDeaths}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
                     <View style={styles.button}>
                         <Button title='rechercher'  color="#ab4d8b" onPress={ () => this._goToSearchScreen()} />
                     </View>
                     <Button title='accueil' onPress={ () => this._goToHomePage() } />
+                </ScrollView>
+            
+        )
+        if(this.state.isLoading && this.state.summary.length ===0){
+            Content = (
+                <View style={styles.indicator}>
+                    <ActivityIndicator size='large' color='#ab4d8b' />
+                </View>
+            )
+        }
+        return (
+            <ScrollView styles={styles.main}>
+                {Content}
             </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    indicator : {
+        flex : 1,
+        justifyContent : "center",
+        alignItems : "center"
+    },
     main : {
         padding : 10,
         backgroundColor : "#fff"

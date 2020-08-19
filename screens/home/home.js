@@ -1,5 +1,10 @@
 import React , {Component} from 'react'
-import { View, StyleSheet, Text , ScrollView , ImageBackground ,Button } from 'react-native'
+import { View, 
+    StyleSheet, 
+    Text ,
+    ScrollView , 
+    ImageBackground ,
+    Button } from 'react-native'
 
 //IMPORT CONFIG & DEPENDENCIES
 import data from '../../helpers/fakeData'

@@ -16,3 +16,12 @@ export default data = [
         type : 'airplane'
     }
 ]
+
+export const countryData = [
+    {
+        slug : 'south-africa'
+    },
+    {
+        slug : 'ivory-coast'
+    }
+]
