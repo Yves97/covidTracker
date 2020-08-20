@@ -19,7 +19,7 @@ class News extends Component {
     }
 
     componentDidMount(){
-        this._handlerSummaryData()
+        // this._handlerSummaryData()
         if(this.state.summary.length >= 0 ){
             this._handlerSummaryData()
         }
@@ -45,6 +45,7 @@ class News extends Component {
         const { navigation } = this.props
         navigation.navigate('search')
     }
+
     _goToHomePage(){
         const {navigation} = this.props
         navigation.navigate('home')
@@ -53,22 +54,25 @@ class News extends Component {
         const {summary} = this.state
         // console.log(summary)
         let Content  = (
-                <ScrollView style={styles.main}>
+                <View>
                     <View style={styles.inTheWorld}>
                         <Text style={styles.title}>Dans le monde</Text>
-                        {/* <Text style={styles.date}> Date : { this._getFormatedCurrentDate()} </Text> */}
+                        <Text style={styles.date}> Date : { this._getFormatedCurrentDate()} </Text>
                         <View style={styles.boxStats}>
                             <View style={[styles.space,styles.boxStat,styles.boxStatSick]}>
                                 <Text style={styles.colorWhite}>Nombre total de cas confirmés</Text>
                                 <Text style={styles.numbers}>{summary.TotalConfirmed}</Text>
+                                {/* <Text style={styles.numbers}>98498465456</Text> */}
                             </View>
                             <View style={[styles.space,styles.boxStat,styles.boxStatHealth]}>
                                 <Text style={styles.colorWhite}>Nombre de cas guerris  </Text>
                                 <Text style={styles.numbers}>{summary.TotalRecovered}</Text>
+                                {/* <Text style={styles.numbers}>8998456464</Text> */}
                             </View>
                             <View style={[styles.boxStat,styles.boxStatDeath]}>
                                 <Text style={styles.colorWhite}>Nombre de cas morts </Text>
                                 <Text style={styles.numbers}>{summary.TotalDeaths}</Text>
+                                {/* <Text style={styles.numbers}>8496465464</Text> */}
                             </View>
                         </View>
                     </View>
@@ -76,10 +80,10 @@ class News extends Component {
                         <Button title='rechercher'  color="#ab4d8b" onPress={ () => this._goToSearchScreen()} />
                     </View>
                     <Button title='accueil' onPress={ () => this._goToHomePage() } />
-                </ScrollView>
+                </View>
             
         )
-        if(this.state.isLoading && this.state.summary.length ===0){
+        if(this.state.isLoading && summary.length ===0){
             Content = (
                 <View style={styles.indicator}>
                     <ActivityIndicator size='large' color='#ab4d8b' />
@@ -87,7 +91,7 @@ class News extends Component {
             )
         }
         return (
-            <ScrollView styles={styles.main}>
+            <ScrollView style={styles.main}>
                 {Content}
             </ScrollView>
         );
@@ -95,14 +99,14 @@ class News extends Component {
 }
 
 const styles = StyleSheet.create({
-    indicator : {
-        flex : 1,
-        justifyContent : "center",
-        alignItems : "center"
-    },
     main : {
+        flex : 1,
         padding : 10,
-        backgroundColor : "#fff"
+        backgroundColor : "#fff",
+        flexDirection : "column",
+    },
+    indicator : {
+        flex : 2,
     },
     inTheWorld : {
         marginBottom : 40
@@ -122,19 +126,17 @@ const styles = StyleSheet.create({
         marginBottom : 10
     },
     boxStat : {
-        padding : 10
+        padding : 10,
     },
     boxStatSick : {
         backgroundColor : "orange",
-        borderRadius : 5,
+        
     },
     boxStatHealth : {
         backgroundColor : "green",
-        borderRadius : 5,
     },
     boxStatDeath : {
         backgroundColor : "red",
-        borderRadius : 5
     },  
     colorWhite : {
         color : '#fff',

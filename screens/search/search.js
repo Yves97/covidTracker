@@ -4,30 +4,41 @@ import { View  , StyleSheet , TextInput, Button, ImageBackground,Text, ActivityI
 //IMPORT CONFIG & DEPENDENCIES
 import data, { countryData } from '../../helpers/fakeData'
 import {Picker} from '@react-native-community/picker';
-import { getSummaryData } from '../../api/covid/covidApi'
+import { getSummaryData , getLiveDataFromCountries} from '../../api/covid/covidApi'
+import moment from 'moment'
 
 //IMPORT COMPONENTS
-import  CardItem from '../../components/news/cardItem'
 
-//IMPORT IMAGES
-import CoronaImg from '../../assets/images/virus-covid.png'
+
 
 class Search extends Component{
     constructor(props){
         super(props)
         this.state = {
-            country : '',
+            country : '' || 'afghanistan',
             loadingSlug : false,
-            slugs : ''
+            slugs : '',
+            loadingLive : false,
+            liveData : null
         }
     }
     componentDidMount(){
-        console.log('hello')
+        // console.log('hello')
         this._getSlugData()
     }
 
-    _searchFormCountryName(){
-        console.log('searching...')
+    _searchFormCountryName = () => {
+        // console.log('trigger')
+        this.setState({loadingLive : true})
+        getLiveDataFromCountries(this.state.country)
+            .then((data) => {
+                this.setState({
+                    liveData : data,
+                    loadingLive : false
+                })
+            })
+            .catch((error)=> console.log(error))
+        // console.log('searching...')
     }
 
     _goToHomePage(){
@@ -51,51 +62,86 @@ class Search extends Component{
 
     _renderSlugs = (slug) => slug.map((item,index) => item.Slug )
 
+    _lastElementOfArray(array) {
+        return array[array.length - 1]
+    }
+
+    _formatedDataToFrench = (date) => {
+        let dateFr = moment.locale('fr')
+    }
+
+    //RENDER
     render(){
         if( this.state.slugs === '' ){
             // console.log('loading')
             return (
-                <View>
+                <View style={styles.indicator}>
                     <ActivityIndicator size='large' color='#ab4d8b' />
                 </View>
             )
         }
-        // console.log(this.state.slugs)
-        let country = this.state.slugs
-        let Data = country.map((item,index) => <Picker.Item key={index} label={item.Slug}   value={item.slug} />)
+        let slugs = this.state.slugs
+
+        let slugsData = slugs.map((item,index) => { 
+            return  <Picker.Item key={index} label={item}   value={item} /> 
+        })
         
+        let LiveDATA = (
+            <View />
+        )
+        if(this.state.liveData === null){
+            LiveDATA = (
+                <View/>
+            )
+        }
+        else{
+            const LiveData = this._lastElementOfArray(this.state.liveData)
+            console.log(LiveData)
+            LiveDATA = (
+                <View style={styles.liveData}>
+                    <Text>Date  : {LiveData.Date} </Text>
+                    <Text>Pays : {LiveData.Country}</Text>
+                    <Text>Nombre de cas confirmés : {LiveData.Cases}</Text>
+                </View>
+            )
+        }
         return (
-                <ImageBackground style={styles.mainView} source={CoronaImg}>
+                <View style={styles.mainView}>
                     <View style={styles.boxSearch}>
+                    <Text>Obtenez les données en temps réels</Text>
                     <Picker selectedValue={this.state.country} style={styles.picker} onValueChange={(itemValue, itemIndex) => this.setState({country: itemValue}) }>
-                        {Data}
-
+                        {slugsData}
                     </Picker>
-
-                        {/* <TextInput placeholder='rechercher un pays ici'></TextInput> */}
                         <View style={styles.boxButton}>
                             <Button color="#ab4d8b" style={styles.space}  title='Rechercher' onPress={ () => this._searchFormCountryName() } />
                             <Button title='accueil' onPress={ () => this._goToHomePage() } />
                         </View>
                     </View>
-                </ImageBackground>
+                    {LiveDATA}
+                </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    indicator : {
+        flex : 1,
+        backgroundColor : "#fff",
+        padding : 10
+    },  
     mainView : {
         padding : 10,
         flex : 1,
-        justifyContent : "center",
+        // justifyContent : "center",
         alignItems : "center",
+        backgroundColor : '#fff'
     },
     picker : {
         borderWidth : 50,
         borderStyle : "solid",
     },
     boxSearch : {
-        backgroundColor : "#fff",
+        backgroundColor : "#ab4d8c5b",
         width : '100%',
         padding : 25,
         resizeMode : "cover"
@@ -104,6 +150,14 @@ const styles = StyleSheet.create({
         flexDirection : "row",
         justifyContent : "space-around"
     },
+    liveData: {
+        padding : 10,
+        marginTop : 10,
+        height : 100,
+        flexDirection : "column",
+        backgroundColor : "#ab4d8c5b",
+        width : '100%'
+    }
 })
 
 export default Search
