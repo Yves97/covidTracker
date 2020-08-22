@@ -5,8 +5,8 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import {faHome,faSearch,faInfo } from '@fortawesome/free-solid-svg-icons'
 
 //IMPORT SCREENS
 import Home from './screens/home/home'
@@ -28,22 +28,20 @@ function App(){
                       let iconName;
           
                       if (route.name === 'home') {
-                        iconName = focused
-                          ? 'home'
-                          : 'home';
+                        iconName = faHome
                       } else if (route.name === 'news') {
-                        iconName = focused ? 'info' : 'info';
+                        iconName =  faInfo
                       }
                       else if (route.name === 'search') {
-                        iconName = focused ? 'search' : 'search';
+                        iconName =faSearch
                       }
           
                       
-                      return <FontAwesomeIcon name={iconName} size={size} color={color} />;
+                      return <FontAwesomeIcon icon={iconName}  />;
                     },
                   })}
                   tabBarOptions={{
-                    activeTintColor: 'tomato',
+                    activeTintColor: '#ab4d8b',
                     inactiveTintColor: 'gray',
                   }}
         >

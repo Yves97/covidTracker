@@ -16,11 +16,6 @@ import CoronaImg from '../../assets/images/covid-19_virus.jpg'
 
 class Home extends Component {
 
-    _getNewsInfos = () => {
-        const { navigation } = this.props
-        navigation.navigate('news')
-    }
-
     render(){
         return (
             <ScrollView style={styles.scrool_view} >
@@ -29,9 +24,6 @@ class Home extends Component {
                         <Text style={styles.title}>COVID-19</Text>
                     </View>
                 </ImageBackground>
-                    <View style={styles.buttons}>
-                        <Button title="Actualité" style={styles.customButton}  color="#ab4d8b" onPress={ () => this._getNewsInfos()} />
-                    </View>
                     <View  style={styles.main}>
                         <Text style={styles.descriptionTitle}>Historique</Text>
                         <Text style={styles.description}>La maladie à coronavirus 2019 Écouter, ou la ou lenote 1 Covid-19 Écouter (acronyme anglais de coronavirus disease 2019), est une maladie infectieuse émergente de type zoonose virale causée par la souche de coronavirus SARS-CoV-2. Les symptômes les plus fréquents sont la fièvre, la toux, la fatigue et la gêne respiratoire. Dans les formes les plus graves, l'apparition d'un syndrome de détresse respiratoire aiguë peut entraîner la mort, notamment chez les personnes plus fragiles du fait de leur âge ou en cas de comorbidités. Une autre complication mortelle est une réponse exacerbée du système immunitaire inné (choc cytokinique).
@@ -77,7 +69,7 @@ const styles = StyleSheet.create({
     },
     main : {
         flex : 1,
-        padding : 10
+        padding : 10,
     },
     hero : {   
         height : 300,

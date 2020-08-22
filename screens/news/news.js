@@ -5,7 +5,8 @@ import {
     ScrollView, 
     StyleSheet, 
     Button, 
-    ActivityIndicator
+    ActivityIndicator,
+    ImageBackground
 } from 'react-native'
 
 //IMPORT CONFIG & DEPENDENCIES
@@ -17,6 +18,8 @@ import LinearGradient from 'react-native-linear-gradient';
 //IMPORT COMPONENTS
 
 //IMPORT IMAGES
+import Globe from '../../assets/images/globe.jpg'
+import Globe2 from '../../assets/images/covid-19-globe.jpg'
 
 class News extends Component {
     constructor(props){
@@ -57,15 +60,11 @@ class News extends Component {
         navigation.navigate('search')
     }
 
-    _goToHomePage(){
-        const {navigation} = this.props
-        navigation.navigate('home')
-    }
     render() {
         const {summary} = this.state
         // console.log(summary)
         let Content  = (
-                <View>
+                <View style={styles.overlay}>
                     <View style={styles.inTheWorld}>
                         <Text style={styles.title}>Dans le monde</Text>
                         <Text style={styles.date}> Date : { this._formatedDataToFrench()} </Text>
@@ -90,7 +89,6 @@ class News extends Component {
                     <View style={styles.button}>
                         <Button title='rechercher'  color="#ab4d8b" onPress={ () => this._goToSearchScreen()} />
                     </View>
-                    <Button title='accueil' onPress={ () => this._goToHomePage() } />
                 </View>
             
         )
@@ -102,19 +100,27 @@ class News extends Component {
             )
         }
         return (
-            <ScrollView style={styles.main}>
+            <ImageBackground source={Globe2} style={styles.main}>
                 {Content}
-            </ScrollView>
+            </ImageBackground>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    hero : {
+        resizeMode : "cover"
+    },
     main : {
         flex : 1,
-        padding : 10,
         backgroundColor : "#fff",
         flexDirection : "column",
+        resizeMode : "cover"
+    },
+    overlay : {
+        flex : 1,
+        backgroundColor : 'rgba(0, 0, 0, 0.349)',
+        padding : 10,
     },
     indicator : {
         flex : 2,
@@ -125,12 +131,14 @@ const styles = StyleSheet.create({
     date : {
         fontSize : 15,
         marginBottom : 10,
-        fontFamily : "Montserrat-Regular"
+        fontFamily : "Montserrat-Regular",
+        color : '#fff'
     },
     title :  {
         fontSize : 25,
         marginBottom : 10,
-        fontFamily : "Montserrat-Regular"
+        fontFamily : "Montserrat-Regular",
+        color : "#fff",
     },
     boxStats : {
         flexDirection : "column",

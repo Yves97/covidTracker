@@ -7,7 +7,11 @@ import {Picker} from '@react-native-community/picker';
 import { getSummaryData , getLiveDataFromCountries} from '../../api/covid/covidApi'
 import moment from 'moment'
 import 'moment/locale/fr'
+
 //IMPORT COMPONENTS
+
+//IMPORT IMAGES
+import Coronavirus from '../../assets/images/coronavirus.jpg'
 
 
 
@@ -23,12 +27,10 @@ class Search extends Component{
         }
     }
     componentDidMount(){
-        // console.log('hello')
         this._getSlugData()
     }
 
     _searchFormCountryName = () => {
-        // console.log('trigger')
         this.setState({loadingLive : true})
         getLiveDataFromCountries(this.state.country)
             .then((data) => {
@@ -38,7 +40,6 @@ class Search extends Component{
                 })
             })
             .catch((error)=> console.log(error))
-        // console.log('searching...')
     }
 
     _goToHomePage(){
@@ -75,7 +76,6 @@ class Search extends Component{
     //RENDER
     render(){
         if( this.state.slugs === '' ){
-            // console.log('loading')
             return (
                 <View style={styles.indicator}>
                     <ActivityIndicator size='large' color='#ab4d8b' />
@@ -98,17 +98,16 @@ class Search extends Component{
         }
         else{
             const LiveData = this._lastElementOfArray(this.state.liveData)
-            console.log(LiveData)
             LiveDATA = (
                 <View style={styles.liveData}>
-                    <Text>Date  : {this._formatedDataToFrench(LiveData.Date)} </Text>
-                    <Text>Pays : {LiveData.Country}</Text>
-                    <Text>Nombre de cas confirmés : {LiveData.Cases}</Text>
+                    <Text style={styles.text}>Date  : {this._formatedDataToFrench(LiveData.Date)} </Text>
+                    <Text style={styles.text}>Pays : {LiveData.Country}</Text>
+                    <Text style={styles.text}>Nombre de cas confirmés : {LiveData.Cases}</Text>
                 </View>
             )
         }
         return (
-                <View style={styles.mainView}>
+                <ImageBackground style={styles.mainView} source={Coronavirus}>
                     <View style={styles.boxSearch}>
                     <Text style={styles.text}>Obtenez les données en temps réels</Text>
                     <Picker selectedValue={this.state.country} style={styles.picker} onValueChange={(itemValue, itemIndex) => this.setState({country: itemValue}) }>
@@ -116,18 +115,19 @@ class Search extends Component{
                     </Picker>
                         <View style={styles.boxButton}>
                             <Button color="#ab4d8b" style={styles.text}  title='Rechercher' onPress={ () => this._searchFormCountryName() } />
-                            <Button title='accueil' style={styles.text}  onPress={ () => this._goToHomePage() } />
                         </View>
                     </View>
                     {LiveDATA}
-                </View>
+                </ImageBackground>
         )
     }
 }
 
 const styles = StyleSheet.create({
     text : {
-        fontFamily : "Montserrat-Regular"
+        fontFamily : "Montserrat-Regular",
+        fontSize : 18,
+        color : "#fff"
     },
     indicator : {
         flex : 1,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         borderStyle : "solid",
     },
     boxSearch : {
-        backgroundColor : "#ab4d8c5b",
+        backgroundColor : "#ab4d8ce3",
         width : '100%',
         padding : 25,
         resizeMode : "cover"
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         marginTop : 10,
         height : 100,
         flexDirection : "column",
-        backgroundColor : "#ab4d8c5b",
+        backgroundColor : "#ab4d8ce3",
         width : '100%'
     }
 })
