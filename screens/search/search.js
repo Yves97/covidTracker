@@ -6,7 +6,7 @@ import data, { countryData } from '../../helpers/fakeData'
 import {Picker} from '@react-native-community/picker';
 import { getSummaryData , getLiveDataFromCountries} from '../../api/covid/covidApi'
 import moment from 'moment'
-
+import 'moment/locale/fr'
 //IMPORT COMPONENTS
 
 
@@ -66,8 +66,10 @@ class Search extends Component{
         return array[array.length - 1]
     }
 
-    _formatedDataToFrench = (date) => {
-        let dateFr = moment.locale('fr')
+    _formatedDataToFrench = () => {
+        let localLocale = moment();
+        localLocale.locale('fr');
+        return localLocale.format('LL');
     }
 
     //RENDER
@@ -99,7 +101,7 @@ class Search extends Component{
             console.log(LiveData)
             LiveDATA = (
                 <View style={styles.liveData}>
-                    <Text>Date  : {LiveData.Date} </Text>
+                    <Text>Date  : {this._formatedDataToFrench(LiveData.Date)} </Text>
                     <Text>Pays : {LiveData.Country}</Text>
                     <Text>Nombre de cas confirmés : {LiveData.Cases}</Text>
                 </View>
@@ -108,13 +110,13 @@ class Search extends Component{
         return (
                 <View style={styles.mainView}>
                     <View style={styles.boxSearch}>
-                    <Text>Obtenez les données en temps réels</Text>
+                    <Text style={styles.text}>Obtenez les données en temps réels</Text>
                     <Picker selectedValue={this.state.country} style={styles.picker} onValueChange={(itemValue, itemIndex) => this.setState({country: itemValue}) }>
                         {slugsData}
                     </Picker>
                         <View style={styles.boxButton}>
-                            <Button color="#ab4d8b" style={styles.space}  title='Rechercher' onPress={ () => this._searchFormCountryName() } />
-                            <Button title='accueil' onPress={ () => this._goToHomePage() } />
+                            <Button color="#ab4d8b" style={styles.text}  title='Rechercher' onPress={ () => this._searchFormCountryName() } />
+                            <Button title='accueil' style={styles.text}  onPress={ () => this._goToHomePage() } />
                         </View>
                     </View>
                     {LiveDATA}
@@ -124,6 +126,9 @@ class Search extends Component{
 }
 
 const styles = StyleSheet.create({
+    text : {
+        fontFamily : "Montserrat-Regular"
+    },
     indicator : {
         flex : 1,
         backgroundColor : "#fff",

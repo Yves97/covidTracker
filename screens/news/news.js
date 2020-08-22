@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import {View,Text, ScrollView, StyleSheet, Button, ActivityIndicator} from 'react-native'
+import {
+    View,
+    Text, 
+    ScrollView, 
+    StyleSheet, 
+    Button, 
+    ActivityIndicator
+} from 'react-native'
 
 //IMPORT CONFIG & DEPENDENCIES
 import {getSummaryData} from '../../api/covid/covidApi'
 import moment from 'moment'
+import 'moment/locale/fr'
+import LinearGradient from 'react-native-linear-gradient';
 
 //IMPORT COMPONENTS
 
@@ -25,8 +34,10 @@ class News extends Component {
         }
     }
 
-    _getFormatedCurrentDate = () => {
-        let dateFr = moment.locale('fr')
+    _formatedDataToFrench = () => {
+        let localLocale = moment();
+        localLocale.locale('fr');
+        return localLocale.format('LL');
     }
     
     _handlerSummaryData = () => {
@@ -57,23 +68,23 @@ class News extends Component {
                 <View>
                     <View style={styles.inTheWorld}>
                         <Text style={styles.title}>Dans le monde</Text>
-                        <Text style={styles.date}> Date : { this._getFormatedCurrentDate()} </Text>
+                        <Text style={styles.date}> Date : { this._formatedDataToFrench()} </Text>
                         <View style={styles.boxStats}>
-                            <View style={[styles.space,styles.boxStat,styles.boxStatSick]}>
+                            <LinearGradient start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}} locations={[0,0.5]} colors={['#ea5455', '#febf63']} style={[styles.space,styles.boxStat,styles.boxStatSick]}>
                                 <Text style={styles.colorWhite}>Nombre total de cas confirmés</Text>
                                 <Text style={styles.numbers}>{summary.TotalConfirmed}</Text>
                                 {/* <Text style={styles.numbers}>98498465456</Text> */}
-                            </View>
-                            <View style={[styles.space,styles.boxStat,styles.boxStatHealth]}>
+                            </LinearGradient>
+                            <LinearGradient start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}} locations={[0,0.5]} colors={[ '#206a5d', '#a8df65']} style={[styles.space,styles.boxStat,styles.boxStatHealth]}>
                                 <Text style={styles.colorWhite}>Nombre de cas guerris  </Text>
                                 <Text style={styles.numbers}>{summary.TotalRecovered}</Text>
                                 {/* <Text style={styles.numbers}>8998456464</Text> */}
-                            </View>
-                            <View style={[styles.boxStat,styles.boxStatDeath]}>
+                            </LinearGradient>
+                            <LinearGradient start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}} locations={[0,0.5]} colors={['#ea5455', '#810000']} style={[styles.boxStat,styles.boxStatDeath]}>
                                 <Text style={styles.colorWhite}>Nombre de cas morts </Text>
                                 <Text style={styles.numbers}>{summary.TotalDeaths}</Text>
                                 {/* <Text style={styles.numbers}>8496465464</Text> */}
-                            </View>
+                            </LinearGradient>
                         </View>
                     </View>
                     <View style={styles.button}>
@@ -113,11 +124,13 @@ const styles = StyleSheet.create({
     },
     date : {
         fontSize : 15,
-        marginBottom : 10
+        marginBottom : 10,
+        fontFamily : "Montserrat-Regular"
     },
     title :  {
         fontSize : 25,
-        marginBottom : 10
+        marginBottom : 10,
+        fontFamily : "Montserrat-Regular"
     },
     boxStats : {
         flexDirection : "column",
@@ -140,12 +153,14 @@ const styles = StyleSheet.create({
     },  
     colorWhite : {
         color : '#fff',
-        fontSize : 15
+        fontSize : 15,
+        fontFamily : "Montserrat-Regular"
     },
     numbers : {
         textAlign : "center",
         fontSize : 35,
-        fontWeight : "bold"
+        fontWeight : "bold",
+        color : "#fff"
     },
     button : {
         marginBottom : 10
