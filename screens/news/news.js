@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text, 
-    ScrollView, 
+    Text,  
     StyleSheet, 
     Button, 
     ActivityIndicator,
@@ -18,7 +17,6 @@ import LinearGradient from 'react-native-linear-gradient';
 //IMPORT COMPONENTS
 
 //IMPORT IMAGES
-import Globe from '../../assets/images/globe.jpg'
 import Globe2 from '../../assets/images/covid-19-globe.jpg'
 
 class News extends Component {

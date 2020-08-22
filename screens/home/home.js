@@ -8,7 +8,6 @@ import {
     Button } from 'react-native'
 
 //IMPORT CONFIG & DEPENDENCIES
-import data from '../../helpers/fakeData'
 
 
 //IMPORT IMAGES
