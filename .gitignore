@@ -1,3 +1,4 @@
+./helpers
 #vscode
 .vscode
 # OSX
@@ -59,6 +60,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-#helpers
-/helpers
