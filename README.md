@@ -1,4 +1,4 @@
-### Alt-CovidTracker
+### CovidTracker App With React Native
 <!-- [image] : https://github.com/Yves97/covidTracker/
 ### Android app 
 Using React Native [Link for react native]
