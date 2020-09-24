@@ -1,7 +1,8 @@
-### CovidTracker App With React Native
-<!-- [image] : https://github.com/Yves97/covidTracker/
-### Android app 
-Using React Native [Link for react native]
-ScreenShot home page
-you can test app here [expo react]
-or download directly apk's files here : \covidTracker\android\app\build\outputs\apk\release -->
+### CovidTracker App Buid With [React Native](https://reactnative.dev/) 
+
+<code>
+    <img src="assets\images\screen.jpg" height="500" style="margin-bottom:10px;">
+</code>
+
+You can download directly apk's files [here](\android\app\build\outputs\apk\release)
+
